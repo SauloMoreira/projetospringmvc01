@@ -13,7 +13,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/projetoSpringMVC01/home">Controle de Funcionários</a>
+			<a class="navbar-brand" href="#">Controle de Funcionários</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -57,13 +57,72 @@
 		</nav>
 	</div>
 
-	<div class="container mt-4">
-		<h3>Seja bem vindo ao projeto!</h3>
+	<div class="container mt-3">
+	 <div class="row align-items-start">
+    <div class="col" id="grafico">
+    </div>
+    <div class="col">
+      One of three columns
+    </div>
+    <div class="col">
+      One of three columns
+    </div>
+  </div>	
+		<div ></div>		
 	</div>
 
 	<!-- Referencia para arquivos JS -->
 	<script src="resources/js/bootstrap.min.js"></script>
+	
+	<!-- Referencia do JQuery -->
+	<script src="resources/js/jquery-3.6.0.min.js"></script>	
+
+	<!-- Referencia dos arquivos do Highcharts -->
+	<script src="resources/js/highcharts.js"></script>
+	<script src="resources/js/highcharts-3d.js"></script>
+	<script src="resources/js/exporting.js"></script>
+	<script src="resources/js/export-data.js"></script>
+	
+	<script>
+		$(document).ready(function(){
+			
+			var dados = [
+				{ data : [${qtd_admitido}], name : 'Funcionários admitidos' },
+				{ data : [${qtd_afastado}], name : 'Funcionários afastados' },
+				{ data : [${qtd_ferias}], name : 'Funcionários de férias' },
+				{ data : [${qtd_demitido}], name : 'Funcionários demitidos' },
+				{ data : [${qtd_aposentado}], name : 'Funcionários Aposentados' }
+			];
+			
+			var array = [];
+			for(var i = 0; i < dados.length; i++){
+				array.push([ dados[i].name, dados[i].data[0] ]);
+			}
+			
+			new Highcharts.Chart({
+				chart : {
+					type : 'pie',
+					renderTo : 'grafico'
+				},
+				title : {
+					text : 'Gráfico de Funcionários por Situação.'
+				},
+				subtitle : {
+					text : 'Total de funcionários por situação cadastrada.'
+				},
+				exporting : { enabled : false },
+				credits : { enabled : false },
+				plotOptions : {
+					pie : {
+						innerSize: '60%'
+					}
+				},
+				series : [
+					{ data : array }
+				]
+			})
+		})
+	</script>
 
 </body>
 </html>
-
